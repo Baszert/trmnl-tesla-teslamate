@@ -1,10 +1,10 @@
 <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
 <style>
-  .bold {
+  .tesla-plugin .bold {
     font-variation-settings: "wght" 700;
   }
 </style>
-<div class="layout layout--col p--4">
+<div class="layout layout--col p--4 tesla-plugin">
 
   <div class="flex w--full">
     <div class="flex flex--center-y stretch">
@@ -33,7 +33,7 @@
       <span style="margin-top: 2px;">{{ battery_level }} <span class="label lg:value--xsmall">%</span></span>
       {% if charger_power != '0' %}
       <div class="label lg:value--xsmall flex">
-        <span style="margin-top: 2px;">/ {{ charger_power }} <span class="label--small">kWh</span></span>
+        <span style="margin-top: 2px;">/ {{ charger_power }} <span class="label--small">kW</span></span>
       </div>
       {% endif %}
     </div>
@@ -52,7 +52,7 @@
         <div class="value--xxsmall lg:value--xsmall text--gray-40">
           Actieradius
         </div>
-        <div class="value--xsmall lg:value mt--1 bold"">
+        <div class="value--xsmall lg:value mt--1 bold">
           {{ rated_battery_range_km | round }} <span class="label">km</span>
         </div>
       </div>
