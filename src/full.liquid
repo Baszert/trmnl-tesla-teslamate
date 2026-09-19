@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
+<style>
+  .bold {
+    font-variation-settings: "wght" 700;
+  }
+</style>
+<div class="layout layout--col p--4">
+
+  <div class="flex w--full">
+    <div class="flex flex--center-y stretch">
+      <svg fill="#000000" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10" d="M16 7.151l3.302-4.036c0 0 5.656 0.12 11.292 2.74-1.443 2.182-4.307 3.25-4.307 3.25-0.193-1.917-1.536-2.385-5.807-2.385l-4.479 25.281-4.51-25.286c-4.24 0-5.583 0.469-5.776 2.385 0 0-2.865-1.057-4.307-3.24 5.635-2.62 11.292-2.74 11.292-2.74l3.302 4.031h-0.005zM16 1.953c4.552-0.042 9.766 0.703 15.104 3.036 0.714-1.292 0.896-1.859 0.896-1.859-5.833-2.313-11.297-3.109-16-3.13-4.703 0.021-10.167 0.813-16 3.13 0 0 0.26 0.703 0.896 1.865 5.339-2.344 10.552-3.083 15.104-3.047z"/>
+        <path fill="#000000" d="M16 7.151l3.302-4.036c0 0 5.656 0.12 11.292 2.74-1.443 2.182-4.307 3.25-4.307 3.25-0.193-1.917-1.536-2.385-5.807-2.385l-4.479 25.281-4.51-25.286c-4.24 0-5.583 0.469-5.776 2.385 0 0-2.865-1.057-4.307-3.24 5.635-2.62 11.292-2.74 11.292-2.74l3.302 4.031h-0.005zM16 1.953c4.552-0.042 9.766 0.703 15.104 3.036 0.714-1.292 0.896-1.859 0.896-1.859-5.833-2.313-11.297-3.109-16-3.13-4.703 0.021-10.167 0.813-16 3.13 0 0 0.26 0.703 0.896 1.865 5.339-2.344 10.552-3.083 15.104-3.047z"/>
+      </svg>
+
+      <div class="value--xsmall lg:value--small bold">{{ display_name }}</div>
+      <span class="label--small lg:value--xxsmall lg:text--gray-40 mt--1">{{ version }}</span>
+
+    </div>
+    <div class="value--xsmall lg:value--small flex">
+      {% assign level = battery_level | plus: 0 %}
+      {% if level >= 90 %}
+      <i class="hgi hgi-stroke hgi-battery-full value--small"></i>
+      {% elsif level >= 60 %}
+      <i class="hgi hgi-stroke hgi-battery-medium-02 value--small"></i>
+      {% elsif level >= 40 %}
+      <i class="hgi hgi-stroke hgi-battery-medium-01 value--small"></i>
+      {% elsif level >= 15 %}
+      <i class="hgi hgi-stroke hgi-battery-low value--small"></i>
+      {% else %}
+      <i class="hgi hgi-stroke hgi-battery-empty value--small"></i>
+      {% endif %}
+      <span style="margin-top: 2px;">{{ battery_level }} <span class="label lg:value--xsmall">%</span></span>
+      {% if charger_power != '0' %}
+      <div class="label lg:value--xsmall flex">
+        <span style="margin-top: 2px;">/ {{ charger_power }} <span class="label--small">kWh</span></span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="stretch w--full flex flex--center-x">
+    <img src="https://trmnl.achtnegen.nl/tesla/auto-blauw.png" class="image image-dither h--full w--full image--contain">
+  </div>
+  <div class="grid grid--cols-3">
+
+    <div class="flex gap--medium flex--center-x">
+      <div class="value--small lg:value">
+        <i class="hgi hgi-stroke hgi-navigator-01"></i>
+      </div>
+      <div class="mt--1">
+        <div class="value--xxsmall lg:value--xsmall text--gray-40">
+          Actieradius
+        </div>
+        <div class="value--xsmall lg:value mt--1 bold"">
+          {{ rated_battery_range_km | round }} <span class="label">km</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex gap--medium flex--center-x">
+      <div class="value--small lg:value">
+        <i class="hgi hgi-stroke hgi-dashboard-speed-02"></i>
+      </div>
+      <div class="mt--1">
+        <div class="value--xxsmall lg:value--xsmall text--gray-40">
+          Kilometerstand
+        </div>
+        <div class="value--xsmall lg:value mt--1 bold">
+          {{ odometer | round }} <span class="label">km</span>
+        </div>
+      </div>
+    </div>
+
+        <div class="flex gap--medium flex--center-x">
+      <div class="value--small lg:value">
+        <i class="hgi hgi-stroke hgi-temperature"></i>
+      </div>
+      <div class="mt--1">
+        <div class="value--xxsmall lg:value--xsmall text--gray-40">
+          Temperatuur
+        </div>
+        <div class="value--xsmall lg:value mt--1 bold">
+          {{ inside_temp }}° - <span class="label lg:value--small bold">{{ outside_temp }}°</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
