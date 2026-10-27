@@ -9,6 +9,24 @@ watch:
 # values of custom fields (defined in src/settings.yml)
 custom_fields: {}
 
-# override variables
+# override variables: a sample payload from trmnl-teslamate-reporter
 variables:
-  trmnl: {}
+  trmnl:
+    user:
+      utc_offset: 3600
+    system:
+      timestamp_utc: 1793124794
+    plugin_settings:
+      data_fetched_utc: 1793124374
+  state: charging
+  display_name: Willem
+  version: '2025.38.6'
+  battery_level: '64'
+  rated_battery_range_km: '352.4'
+  odometer: '48213.6'
+  charger_power: '11'
+  charger_voltage: '231'
+  inside_temp: '14.5'
+  outside_temp: '8.0'
+  speed: ''
+  power: '-11'
