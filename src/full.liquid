@@ -1,89 +1,331 @@
-<link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
 <style>
-  .tesla-plugin .bold {
-    font-variation-settings: "wght" 700;
-  }
+  .tm { width: 100%; height: 100%; align-self: stretch; display: grid; gap: 8px; grid-template-columns: 308fr 186fr 286fr; grid-template-rows: 57fr 43fr;
+        font-family: "Inter Variable", Inter, sans-serif; font-weight: 500; color: #000; }
+  .tm * { box-sizing: border-box; }
+  .tm .card { border: 1.5px dotted #000; border-radius: 14px; padding: 10px 12px; position: relative; overflow: hidden; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .tm .t { font-size: 13px; font-weight: 600; line-height: 1.2; }
+  .tm .st { font-size: 9.5px; margin-top: 1px; line-height: 1.2; }
+  .tm .num { font-weight: 300; letter-spacing: -0.03em; line-height: 1; }
+  .tm .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9.5px; border-radius: 999px; padding: 2px 7px; white-space: nowrap; line-height: 1.2; }
+  .tm .badge svg { width: 10px; height: 10px; }
+  .tm .badge--dark { background: #000; color: #fff; }
+  .tm .badge--soft { border: 1px solid #000; }
+  .tm .badge--line { border: 1px dashed #000; }
+
+  .tm .car .name { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+  .tm .car img { position: absolute; left: 4px; top: 52px; width: calc(100% - 8px); height: 58%; object-fit: contain; }
+  .tm .car .floor { position: absolute; left: 20px; right: 20px; top: 56%; height: 27%; border: 1px dotted #000; border-radius: 50%; }
+  .tm .car .state { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; gap: 6px; align-items: center; justify-content: center; }
+  .tm .car .state .badge { font-size: 10.5px; padding: 3px 10px; }
+  .tm .car .state .badge--dark svg { fill: #fff; }
+
+  .tm .ring { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; }
+  .tm .ring svg { height: 100%; max-height: 158px; aspect-ratio: 1; }
+  .tm .ring .mid { position: absolute; text-align: center; }
+  .tm .ring .mid .delta { font-size: 9px; min-height: 11px; }
+  .tm .ring .mid .num { font-size: 40px; }
+  .tm .ring .mid .num sup { font-size: 13px; font-weight: 500; vertical-align: 1px; margin-left: 1px; letter-spacing: 0; }
+  .tm .ring .mid .num small { font-size: 11px; font-weight: 500; letter-spacing: 0; margin-left: 1px; }
+  .tm .ring .mid .cap { font-size: 8.5px; margin-top: 3px; }
+  .tm .legend { text-align: center; font-size: 9px; }
+
+  .tm .kpis { display: grid; grid-template-rows: repeat(3, 1fr); gap: 8px; min-height: 0; }
+  .tm .kpi { padding: 8px 12px; }
+  .tm .kpi .row { display: flex; align-items: baseline; gap: 8px; margin-top: 3px; }
+  .tm .kpi .num { font-size: 27px; }
+  .tm .kpi .num small { font-size: 12px; font-weight: 500; letter-spacing: 0; margin-left: 2px; }
+  .tm .dots { display: flex; justify-content: space-between; align-items: center; height: 6px; margin-top: auto; }
+  .tm .dots span { width: 1.5px; height: 1.5px; background: #000; flex: none; }
+  .tm .dots span.on { width: 3px; height: 6px; border-radius: 1px; }
+
+  .tm .bottom { grid-column: 1 / -1; display: grid; gap: 8px; min-height: 0; grid-template-columns: 170px 1fr 128px 150px; }
+  .tm .bottom--nogauge { grid-template-columns: 1fr 128px 150px; }
+  .tm .bottom .list { grid-column: auto; }
+  .tm .gauge .ring svg { max-height: 128px; }
+  .tm .gauge .ring .mid .num { font-size: 30px; }
+
+  .tm .list .t { margin-bottom: 4px; }
+  .tm .item { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+  .tm .item + .item { border-top: 1px dotted #000; }
+  .tm .ico { width: 26px; height: 26px; border-radius: 8px; flex: none; display: flex; align-items: center; justify-content: center; border: 1px solid #000; }
+  .tm .ico svg { width: 15px; height: 15px; fill: none; stroke: #000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .tm .ico--on { background: #000; }
+  .tm .ico--on svg { stroke: #fff; }
+  .tm .item .tx { flex: 1; min-width: 0; }
+  .tm .item .tx b { display: block; font-size: 11px; font-weight: 600; line-height: 1.25; }
+  .tm .item .tx span { display: block; font-size: 9px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .tm .stack { display: grid; grid-template-rows: 1fr 1fr; gap: 8px; min-height: 0; }
+  .tm .mini { padding: 8px 10px; }
+  .tm .mini .inner { margin-top: auto; }
+  .tm .mini .inner .num { font-size: 26px; }
+  .tm .mini .inner span { display: block; font-size: 9px; margin-top: 2px; }
+
+  .tm .tyres svg { width: 100%; flex: 1; min-height: 0; }
+  .tm .tyres .foot { font-size: 9.5px; text-align: center; }
 </style>
-<div class="layout layout--col p--4 tesla-plugin">
 
-  <div class="flex w--full">
-    <div class="flex flex--center-y stretch">
-      <svg fill="#000000" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10" d="M16 7.151l3.302-4.036c0 0 5.656 0.12 11.292 2.74-1.443 2.182-4.307 3.25-4.307 3.25-0.193-1.917-1.536-2.385-5.807-2.385l-4.479 25.281-4.51-25.286c-4.24 0-5.583 0.469-5.776 2.385 0 0-2.865-1.057-4.307-3.24 5.635-2.62 11.292-2.74 11.292-2.74l3.302 4.031h-0.005zM16 1.953c4.552-0.042 9.766 0.703 15.104 3.036 0.714-1.292 0.896-1.859 0.896-1.859-5.833-2.313-11.297-3.109-16-3.13-4.703 0.021-10.167 0.813-16 3.13 0 0 0.26 0.703 0.896 1.865 5.339-2.344 10.552-3.083 15.104-3.047z"/>
-        <path fill="#000000" d="M16 7.151l3.302-4.036c0 0 5.656 0.12 11.292 2.74-1.443 2.182-4.307 3.25-4.307 3.25-0.193-1.917-1.536-2.385-5.807-2.385l-4.479 25.281-4.51-25.286c-4.24 0-5.583 0.469-5.776 2.385 0 0-2.865-1.057-4.307-3.24 5.635-2.62 11.292-2.74 11.292-2.74l3.302 4.031h-0.005zM16 1.953c4.552-0.042 9.766 0.703 15.104 3.036 0.714-1.292 0.896-1.859 0.896-1.859-5.833-2.313-11.297-3.109-16-3.13-4.703 0.021-10.167 0.813-16 3.13 0 0 0.26 0.703 0.896 1.865 5.339-2.344 10.552-3.083 15.104-3.047z"/>
+{%- comment %} ================= data ================= {%- endcomment %}
+{%- assign now = trmnl.system.timestamp_utc | plus: 0 -%}
+{%- assign tz = trmnl.user.utc_offset | plus: 0 -%}
+{%- assign level = battery_level | plus: 0 -%}
+{%- assign limit = 100 -%}{%- if charge_limit_soc -%}{%- assign limit = charge_limit_soc | plus: 0 -%}{%- endif -%}
+{%- assign range_km = rated_battery_range_km | plus: 0 | round -%}
+{%- assign odo_km = odometer | plus: 0 | round -%}
+{%- assign kw = charger_power | plus: 0 -%}
+{%- assign volts = charger_voltage | plus: 0 -%}
+{%- assign speed_kmh = speed | plus: 0 | round -%}
+{%- assign pwr = power | plus: 0 -%}
+{%- assign t_in = inside_temp | plus: 0 | round -%}
+{%- assign t_out = outside_temp | plus: 0 | round -%}
+
+{%- assign is_charging = false -%}
+{%- if state == 'charging' or charging_state == 'Charging' or charging_state == 'Starting' or kw > 0 -%}{%- assign is_charging = true -%}{%- endif -%}
+{%- assign is_driving = false -%}
+{%- if state == 'driving' -%}{%- assign is_driving = true -%}{%- endif -%}
+
+{%- case state -%}
+  {%- when 'charging' -%}{%- assign state_label = 'Laden' -%}
+  {%- when 'driving' -%}{%- assign state_label = 'Rijdt' -%}
+  {%- when 'asleep' -%}{%- assign state_label = 'Slaapt' -%}
+  {%- when 'suspended' -%}{%- assign state_label = 'Valt in slaap' -%}
+  {%- when 'offline' -%}{%- assign state_label = 'Offline' -%}
+  {%- when 'updating' -%}{%- assign state_label = 'Update' -%}
+  {%- else -%}{%- assign state_label = 'Geparkeerd' -%}
+{%- endcase -%}
+{%- if is_charging -%}{%- assign state_label = 'Laden' -%}{%- endif -%}
+{%- assign place = '' -%}
+{%- if geofence and geofence != '' and geofence != 'nil' -%}{%- assign place = geofence -%}{%- endif -%}
+
+{%- assign fetched = reported_at | default: trmnl.plugin_settings.data_fetched_utc | plus: 0 -%}
+{%- assign age_label = '' -%}
+{%- if fetched > 0 -%}
+  {%- assign age_min = now | minus: fetched | divided_by: 60 -%}
+  {%- if age_min < 2 -%}{%- assign age_label = 'zojuist' -%}
+  {%- elsif age_min < 60 -%}{%- capture age_label %}{{ age_min }} min geleden{% endcapture -%}
+  {%- else -%}{%- capture age_label %}{{ age_min | divided_by: 60 }} uur geleden{% endcapture -%}
+  {%- endif -%}
+  {%- assign fetched_at = fetched | plus: tz | date: '%H:%M' -%}
+{%- endif -%}
+{%- assign since_label = '' -%}
+{%- if since and since != '' -%}{%- assign since_label = since | date: '%s' | plus: tz | date: '%H:%M' -%}{%- endif -%}
+
+{%- assign added = '' -%}
+{%- if charge_energy_added -%}{%- assign added = charge_energy_added | plus: 0 | round: 1 | append: '' | replace: '.', ',' -%}{%- endif -%}
+{%- assign full_min = time_to_full_charge | plus: 0 | times: 60 | round -%}
+{%- assign full_h = full_min | divided_by: 60 -%}
+{%- assign full_m = full_min | modulo: 60 -%}
+{%- assign full_at = full_min | times: 60 | plus: now | plus: tz | date: '%H:%M' -%}
+
+{%- assign has_security = false -%}
+{%- if locked or sentry_mode or is_climate_on -%}{%- assign has_security = true -%}{%- endif -%}
+
+{%- comment %} gauge: charging power, or speed while driving {%- endcomment %}
+{%- assign show_gauge = false -%}
+{%- if is_charging -%}
+  {%- assign show_gauge = true -%}
+  {%- assign g_max = 11 -%}{%- if kw > 22 -%}{%- assign g_max = 250 -%}{%- elsif kw > 11 -%}{%- assign g_max = 22 -%}{%- endif -%}
+  {%- assign g_frac = kw | times: 1.0 | divided_by: g_max -%}
+{%- elsif is_driving -%}
+  {%- assign show_gauge = true -%}
+  {%- assign g_frac = speed_kmh | times: 1.0 | divided_by: 160 -%}
+{%- endif -%}
+
+{%- capture i_lock %}<svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.6"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>{% endcapture -%}
+{%- capture i_unlock %}<svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.6"/><path d="M5.5 7V5a2.5 2.5 0 0 1 4.8-1"/></svg>{% endcapture -%}
+{%- capture i_shield %}<svg viewBox="0 0 16 16"><path d="M8 1.8l5 2v4c0 3.2-2.2 5.3-5 6.4-2.8-1.1-5-3.2-5-6.4v-4z"/><circle cx="8" cy="7.6" r="1.6"/></svg>{% endcapture -%}
+{%- capture i_fan %}<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="1.4"/><path d="M8 6.6C8 4 9 2.3 10.6 2.6c1.5.3 1 2.6-1.4 4.6M9.4 8.6c2.3 1.3 3.3 3 2.3 4.3-1 1.1-2.9-.4-3.4-3.4M6.7 8.6c-2.3 1.2-4.3 1-4.5-.6-.2-1.5 2.1-2.1 4.7-.9"/></svg>{% endcapture -%}
+{%- capture i_plug %}<svg viewBox="0 0 16 16"><path d="M6 1.8v3.2M10 1.8v3.2M4.5 5h7v2.5a3.5 3.5 0 0 1-7 0zM8 11v3.2"/></svg>{% endcapture -%}
+{%- capture i_wheel %}<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="1.6"/><path d="M2.3 7h4.1M9.6 7h4.1M8 9.6V14"/></svg>{% endcapture -%}
+{%- capture i_chip %}<svg viewBox="0 0 16 16"><rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M6 2v2M10 2v2M6 12v2M10 12v2M2 6h2M2 10h2M12 6h2M12 10h2"/></svg>{% endcapture -%}
+{%- capture i_bolt %}<svg viewBox="0 0 10 10"><path d="M6 0.5 L1.5 5.6 H4.6 L3.8 9.5 L8.5 4.2 H5.4 Z"/></svg>{% endcapture -%}
+
+{%- comment %} ================= screen ================= {%- endcomment %}
+<div class="layout">
+<div class="tm">
+
+  <div class="card car">
+    <div class="name">{{ display_name | default: 'Tesla' }}</div>
+    <div class="st">Model {{ model | default: '3' }}{% if trim_badging %} · {{ trim_badging }}{% endif %}</div>
+    <div class="floor"></div>
+    <img class="image image-dither" src="https://trmnl.achtnegen.nl/tesla/auto-blauw.png" alt="">
+    <div class="state">
+      <span class="badge badge--dark">{% if is_charging %}{{ i_bolt }}{% endif %}{{ state_label }}{% if place != '' %} · {{ place }}{% endif %}</span>
+      {%- if since_label != '' %}<span class="badge badge--line">sinds {{ since_label }}</span>
+      {%- elsif age_label != '' %}<span class="badge badge--line">{{ age_label }}</span>{% endif %}
+    </div>
+  </div>
+
+  <div class="card bat">
+    <div class="t">Batterij</div>
+    <div class="st">{% if is_charging %}Laadt naar {{ limit }}%{% elsif is_driving %}Onderweg{% else %}Accu{% endif %}</div>
+    <div class="ring">
+      <svg data-ring="dots" data-value="{{ level }}" viewBox="0 0 160 160"></svg>
+      <div class="mid">
+        <div class="delta">{% if is_charging and added != '' %}+{{ added }} kWh{% elsif is_charging %}+{{ kw }} kW{% elsif is_driving %}{{ pwr }} kW{% endif %}</div>
+        <div class="num">{{ level }}<sup>%</sup></div>
+        <div class="cap">{% if usable_battery_level %}{{ usable_battery_level }}% bruikbaar{% else %}lading{% endif %}</div>
+      </div>
+    </div>
+    <div class="legend">{{ range_km }} km actieradius</div>
+  </div>
+
+  <div class="kpis">
+    <div class="card kpi">
+      <div class="t">Actieradius</div>
+      <div class="row"><span class="num">{{ range_km }}<small>km</small></span>{% if est_battery_range_km %}<span class="badge badge--soft">{{ est_battery_range_km | plus: 0 | round }} km geschat</span>{% endif %}</div>
+      <div class="dots" data-on="{{ level }}"></div>
+    </div>
+
+    <div class="card kpi">
+      {%- if is_charging and full_min > 0 %}
+      <div class="t">Vol om</div>
+      <div class="row"><span class="num">{{ full_at }}</span><span class="badge badge--dark">nog {% if full_h > 0 %}{{ full_h }}u {% endif %}{{ full_m }}m</span></div>
+      <div class="dots" data-on="{{ level }}"></div>
+      {%- elsif is_charging %}
+      <div class="t">Laadt tot</div>
+      <div class="row"><span class="num">{{ limit }}<small>%</small></span><span class="badge badge--dark">nog {{ limit | minus: level }}%</span></div>
+      <div class="dots" data-on="{{ level }}"></div>
+      {%- elsif is_driving %}
+      <div class="t">Vermogen</div>
+      <div class="row"><span class="num">{{ pwr }}<small>kW</small></span><span class="badge badge--soft">{% if pwr < 0 %}regeneratief{% else %}verbruik{% endif %}</span></div>
+      <div class="dots" data-on="{{ pwr | abs | times: 100 | divided_by: 150 }}"></div>
+      {%- else %}
+      <div class="t">Bijgewerkt</div>
+      <div class="row"><span class="num">{{ fetched_at | default: '-' }}</span>{% if age_label != '' %}<span class="badge badge--soft">{{ age_label }}</span>{% endif %}</div>
+      <div class="dots" data-on="0"></div>
+      {%- endif %}
+    </div>
+
+    <div class="card kpi">
+      <div class="t">Software</div>
+      <div class="row"><span class="num">{{ version | default: '-' | split: ' ' | first }}</span>{% if update_available == 'true' %}<span class="badge badge--dark">update klaar</span>{% endif %}</div>
+      <div class="dots" data-on="100"></div>
+    </div>
+  </div>
+
+  <div class="bottom {% unless show_gauge %}bottom--nogauge{% endunless %}">
+    {%- if show_gauge %}
+    <div class="card gauge">
+      {%- if is_charging %}
+      <div class="t">Laadvermogen</div>
+      <div class="st">{% if charger_actual_current %}{{ charger_actual_current }}A{% if charger_phases %} × {{ charger_phases }} fasen{% endif %}{% elsif kw > 22 %}snelladen{% else %}thuisladen{% endif %}</div>
+      <div class="ring">
+        <svg data-ring="ticks" data-value="{{ g_frac | times: 100 }}" viewBox="0 0 160 160"></svg>
+        <div class="mid"><div class="delta">{% if volts > 0 %}{{ volts }} V{% endif %}</div><div class="num">{{ kw }}<small>kW</small></div></div>
+      </div>
+      {%- else %}
+      <div class="t">Snelheid</div>
+      <div class="st">{{ pwr }} kW</div>
+      <div class="ring">
+        <svg data-ring="ticks" data-value="{{ g_frac | times: 100 }}" viewBox="0 0 160 160"></svg>
+        <div class="mid"><div class="delta">km/u</div><div class="num">{{ speed_kmh }}</div></div>
+      </div>
+      {%- endif %}
+    </div>
+    {%- endif %}
+
+    <div class="card list">
+      <div class="t">Status</div>
+      {%- if has_security %}
+      <div class="item"><span class="ico {% if locked == 'true' %}ico--on{% endif %}">{% if locked == 'false' %}{{ i_unlock }}{% else %}{{ i_lock }}{% endif %}</span>
+        <div class="tx"><b>Vergrendeld</b><span>{% if doors_open == 'true' %}Deur open{% elsif trunk_open == 'true' %}Kofferbak open{% elsif frunk_open == 'true' %}Frunk open{% elsif windows_open == 'true' %}Raam open{% else %}Alle deuren en ramen dicht{% endif %}</span></div>
+        <span class="badge {% if locked == 'false' %}badge--soft{% else %}badge--dark{% endif %}">{% if locked == 'false' %}Open{% else %}Op slot{% endif %}</span></div>
+      <div class="item"><span class="ico {% if sentry_mode == 'true' %}ico--on{% endif %}">{{ i_shield }}</span>
+        <div class="tx"><b>Sentry</b><span>{% if sentry_mode == 'true' %}Camera's kijken mee{% else %}Uitgeschakeld{% endif %}</span></div>
+        <span class="badge {% if sentry_mode == 'true' %}badge--dark{% else %}badge--soft{% endif %}">{% if sentry_mode == 'true' %}Aan{% else %}Uit{% endif %}</span></div>
+      <div class="item"><span class="ico {% if is_climate_on == 'true' %}ico--on{% endif %}">{{ i_fan }}</span>
+        <div class="tx"><b>Klimaat</b><span>{% if is_preconditioning == 'true' %}Voorverwarmen{% else %}Binnen {{ t_in }}° · buiten {{ t_out }}°{% endif %}</span></div>
+        <span class="badge {% if is_climate_on == 'true' %}badge--dark{% else %}badge--soft{% endif %}">{% if is_climate_on == 'true' %}Aan{% else %}Uit{% endif %}</span></div>
+      {%- else %}
+      <div class="item"><span class="ico {% if is_charging %}ico--on{% endif %}">{{ i_plug }}</span>
+        <div class="tx"><b>Lader</b><span>{% if is_charging %}{{ kw }} kW{% if volts > 0 %} · {{ volts }} V{% endif %}{% else %}Niet aan het laden{% endif %}</span></div>
+        <span class="badge {% if is_charging %}badge--dark{% else %}badge--soft{% endif %}">{% if is_charging %}Laadt{% else %}Uit{% endif %}</span></div>
+      <div class="item"><span class="ico {% if is_driving %}ico--on{% endif %}">{{ i_wheel }}</span>
+        <div class="tx"><b>Rijden</b><span>{% if is_driving %}{{ speed_kmh }} km/u · {{ pwr }} kW{% else %}Staat stil{% if place != '' %} bij {{ place }}{% endif %}{% endif %}</span></div>
+        <span class="badge {% if is_driving %}badge--dark{% else %}badge--soft{% endif %}">{% if is_driving %}Rijdt{% else %}Stil{% endif %}</span></div>
+      <div class="item"><span class="ico {% if state == 'asleep' %}{% else %}ico--on{% endif %}">{{ i_chip }}</span>
+        <div class="tx"><b>Verbinding</b><span>{% if age_label != '' %}Data {{ age_label }}{% else %}TeslaMate{% endif %}</span></div>
+        <span class="badge {% if state == 'asleep' or state == 'offline' %}badge--soft{% else %}badge--dark{% endif %}">{% if state == 'asleep' %}Slaapt{% elsif state == 'offline' %}Offline{% else %}Online{% endif %}</span></div>
+      {%- endif %}
+    </div>
+
+    <div class="stack">
+      <div class="card mini">
+        <div class="t">Binnen</div>
+        <div class="inner"><div class="num">{{ t_in }}°</div><span>buiten {{ t_out }}°</span></div>
+      </div>
+      <div class="card mini">
+        <div class="t">Km-stand</div>
+        <div class="inner"><div class="num">{{ odo_km | number_with_delimiter: '.' }}</div><span>kilometer</span></div>
+      </div>
+    </div>
+
+    <div class="card tyres">
+      <div class="t">Banden</div>
+      <div class="st">{% if tpms_pressure_fl %}bar{% if tpms_soft_warning_fl == 'true' or tpms_soft_warning_fr == 'true' or tpms_soft_warning_rl == 'true' or tpms_soft_warning_rr == 'true' %} · let op{% else %} · alles in orde{% endif %}{% else %}geen bandendata{% endif %}</div>
+      <svg viewBox="0 0 150 112">
+        <g fill="#000"><rect x="52.5" y="19" width="4" height="15" rx="1.5"/><rect x="93.5" y="19" width="4" height="15" rx="1.5"/><rect x="52.5" y="79" width="4" height="15" rx="1.5"/><rect x="93.5" y="79" width="4" height="15" rx="1.5"/></g>
+        <path d="M75 4 C85 4 91.5 6.5 93.2 13 C94.6 19 95.6 25 95.4 33 C95 46 94.4 58 94.8 70 C95.2 80 95.8 90 93.6 98 C91.5 105 84 107 75 107 C66 107 58.5 105 56.4 98 C54.2 90 54.8 80 55.2 70 C55.6 58 55 46 54.6 33 C54.4 25 55.4 19 56.8 13 C58.5 6.5 65 4 75 4 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <path d="M58 30.5 L50.5 33 Q49.5 35.5 51.5 36 L58 34.5 Z M92 30.5 L99.5 33 Q100.5 35.5 98.5 36 L92 34.5 Z" fill="#000"/>
+        <path d="M59 10.5 Q62 7.6 66 7 L65 9.6 Q61.6 10.6 59.6 12.6 Z M91 10.5 Q88 7.6 84 7 L85 9.6 Q88.4 10.6 90.4 12.6 Z" fill="#000"/>
+        <path d="M58.6 100.5 Q62 103.6 67 104.2 L66.6 102.4 Q62 101.6 59.4 99.4 Z M91.4 100.5 Q88 103.6 83 104.2 L83.4 102.4 Q88 101.6 90.6 99.4 Z" fill="#000"/>
+        <path d="M65.5 12 Q64 19 64.5 25 M84.5 12 Q86 19 85.5 25" fill="none" stroke="#000" stroke-width="0.6"/>
+        <path d="M61.6 30.5 Q75 24.5 88.4 30.5 C89.6 44 89.8 62 89.2 78 C89 86 87.6 91 85.6 92.6 Q75 95.6 64.4 92.6 C62.4 91 61 86 60.8 78 C60.2 62 60.4 44 61.6 30.5 Z" fill="#000"/>
+        <path d="M66 34 L78 52 M70 33 L84 54 M66 64 L74 76" stroke="#fff" stroke-width="1" stroke-linecap="round"/>
+        <path d="M63.5 97 Q75 99.6 86.5 97" fill="none" stroke="#000" stroke-width="0.6"/>
+        <g stroke="#000" stroke-width="1" stroke-dasharray="1.5 2.5"><line x1="20" y1="30" x2="48" y2="30"/><line x1="102" y1="30" x2="130" y2="30"/><line x1="20" y1="90" x2="48" y2="90"/><line x1="102" y1="90" x2="130" y2="90"/></g>
+        <g font-family="Inter Variable, Inter, sans-serif" font-weight="500" font-size="15" fill="#000" text-anchor="middle">
+          {%- assign tp = 'fl,fr,rl,rr' | split: ',' -%}
+          {%- for k in tp -%}
+            {%- case k -%}
+              {%- when 'fl' -%}{%- assign v = tpms_pressure_fl -%}{%- assign w = tpms_soft_warning_fl -%}{%- assign x = 26 -%}{%- assign y = 25 -%}
+              {%- when 'fr' -%}{%- assign v = tpms_pressure_fr -%}{%- assign w = tpms_soft_warning_fr -%}{%- assign x = 124 -%}{%- assign y = 25 -%}
+              {%- when 'rl' -%}{%- assign v = tpms_pressure_rl -%}{%- assign w = tpms_soft_warning_rl -%}{%- assign x = 26 -%}{%- assign y = 85 -%}
+              {%- when 'rr' -%}{%- assign v = tpms_pressure_rr -%}{%- assign w = tpms_soft_warning_rr -%}{%- assign x = 124 -%}{%- assign y = 85 -%}
+            {%- endcase %}
+          <text x="{{ x }}" y="{{ y }}"{% if w == 'true' %} font-weight="800" text-decoration="underline"{% endif %}>{% if v %}{{ v | plus: 0 | round: 1 }}{% else %}–{% endif %}</text>
+          {%- endfor %}
+        </g>
       </svg>
-
-      <div class="value--xsmall lg:value--small bold">{{ display_name }}</div>
-      <span class="label--small lg:value--xxsmall lg:text--gray-40 mt--1">{{ version }}</span>
-
-    </div>
-    <div class="value--xsmall lg:value--small flex">
-      {% assign level = battery_level | plus: 0 %}
-      {% if level >= 90 %}
-      <i class="hgi hgi-stroke hgi-battery-full value--small"></i>
-      {% elsif level >= 60 %}
-      <i class="hgi hgi-stroke hgi-battery-medium-02 value--small"></i>
-      {% elsif level >= 40 %}
-      <i class="hgi hgi-stroke hgi-battery-medium-01 value--small"></i>
-      {% elsif level >= 15 %}
-      <i class="hgi hgi-stroke hgi-battery-low value--small"></i>
-      {% else %}
-      <i class="hgi hgi-stroke hgi-battery-empty value--small"></i>
-      {% endif %}
-      <span style="margin-top: 2px;">{{ battery_level }} <span class="label lg:value--xsmall">%</span></span>
-      {% if charger_power != '0' %}
-      <div class="label lg:value--xsmall flex">
-        <span style="margin-top: 2px;">/ {{ charger_power }} <span class="label--small">kW</span></span>
-      </div>
-      {% endif %}
+      <div class="foot">{% if age_label != '' %}bijgewerkt {{ age_label }}{% endif %}</div>
     </div>
   </div>
 
-  <div class="stretch w--full flex flex--center-x">
-    <img src="https://trmnl.achtnegen.nl/tesla/auto-blauw.png" class="image image-dither h--full w--full image--contain">
-  </div>
-  <div class="grid grid--cols-3">
-
-    <div class="flex gap--medium flex--center-x">
-      <div class="value--small lg:value">
-        <i class="hgi hgi-stroke hgi-navigator-01"></i>
-      </div>
-      <div class="mt--1">
-        <div class="value--xxsmall lg:value--xsmall text--gray-40">
-          Actieradius
-        </div>
-        <div class="value--xsmall lg:value mt--1 bold">
-          {{ rated_battery_range_km | round }} <span class="label">km</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="flex gap--medium flex--center-x">
-      <div class="value--small lg:value">
-        <i class="hgi hgi-stroke hgi-dashboard-speed-02"></i>
-      </div>
-      <div class="mt--1">
-        <div class="value--xxsmall lg:value--xsmall text--gray-40">
-          Kilometerstand
-        </div>
-        <div class="value--xsmall lg:value mt--1 bold">
-          {{ odometer | round }} <span class="label">km</span>
-        </div>
-      </div>
-    </div>
-
-        <div class="flex gap--medium flex--center-x">
-      <div class="value--small lg:value">
-        <i class="hgi hgi-stroke hgi-temperature"></i>
-      </div>
-      <div class="mt--1">
-        <div class="value--xxsmall lg:value--xsmall text--gray-40">
-          Temperatuur
-        </div>
-        <div class="value--xsmall lg:value mt--1 bold">
-          {{ inside_temp }}° - <span class="label lg:value--small bold">{{ outside_temp }}°</span>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
+</div>
+
+<script>
+  (function () {
+    var NS = 'http://www.w3.org/2000/svg';
+    function el(tag, attrs) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+
+    // battery: two dotted rings, solid up to the charge level, hollow after
+    document.querySelectorAll('[data-ring="dots"]').forEach(function (svg) {
+      var level = parseFloat(svg.dataset.value) || 0;
+      [{ r: 72, n: 44, size: 3.2 }, { r: 60, n: 36, size: 1.6 }].forEach(function (ring) {
+        for (var i = 0; i < ring.n; i++) {
+          var pct = (i / ring.n) * 100, a = (i / ring.n) * Math.PI * 2 - Math.PI / 2, on = pct < level;
+          svg.appendChild(el('circle', { cx: 80 + ring.r * Math.cos(a), cy: 80 + ring.r * Math.sin(a), r: on ? ring.size : ring.size * 0.6,
+            fill: on ? '#000' : '#fff', stroke: '#000', 'stroke-width': on ? 0 : 0.8 }));
+        }
+      });
+    });
+
+    // gauge: tick ring, long thick ticks up to the value, short thin ones after
+    document.querySelectorAll('[data-ring="ticks"]').forEach(function (svg) {
+      var frac = Math.min(1, (parseFloat(svg.dataset.value) || 0) / 100), n = 64;
+      for (var i = 0; i < n; i++) {
+        var a = (i / n) * Math.PI * 2 - Math.PI / 2, on = i / n < frac, r1 = 74, r2 = on ? (i % 8 === 0 ? 60 : 64) : 69;
+        svg.appendChild(el('line', { x1: 80 + r1 * Math.cos(a), y1: 80 + r1 * Math.sin(a), x2: 80 + r2 * Math.cos(a), y2: 80 + r2 * Math.sin(a),
+          stroke: '#000', 'stroke-width': on ? 2 : 1, 'stroke-linecap': 'round' }));
+      }
+    });
+
+    // progress bars: solid bars up to the value, tiny dots after
+    document.querySelectorAll('.tm .dots').forEach(function (d) {
+      var on = parseFloat(d.dataset.on) || 0, n = 44;
+      for (var i = 0; i < n; i++) { var s = document.createElement('span'); if ((i / n) * 100 < on) s.className = 'on'; d.appendChild(s); }
+    });
+  })();
+</script>
