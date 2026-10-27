@@ -31,7 +31,7 @@
 
   .tm .kpis { display: grid; grid-template-rows: repeat(3, 1fr); gap: 8px; min-height: 0; }
   .tm .kpi { padding: 8px 12px; }
-  .tm .kpi .row { display: flex; align-items: baseline; gap: 8px; margin-top: 3px; }
+  .tm .kpi .krow { display: flex; align-items: baseline; gap: 8px; margin-top: 3px; }
   .tm .kpi .num { font-size: 27px; }
   .tm .kpi .num small { font-size: 12px; font-weight: 500; letter-spacing: 0; margin-left: 2px; }
   .tm .dots { display: flex; justify-content: space-between; align-items: center; height: 6px; margin-top: auto; }
@@ -40,20 +40,20 @@
 
   .tm .bottom { grid-column: 1 / -1; display: grid; gap: 8px; min-height: 0; grid-template-columns: 170px 1fr 128px 150px; }
   .tm .bottom--nogauge { grid-template-columns: 1fr 128px 150px; }
-  .tm .bottom .list { grid-column: auto; }
+  .tm .bottom .slist { grid-column: auto; }
   .tm .gauge .ring svg { max-height: 128px; }
   .tm .gauge .ring .mid .num { font-size: 30px; }
 
-  .tm .list .t { margin-bottom: 2px; }
-  .tm .item { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0; min-height: 0; }
-  .tm .item + .item { border-top: 1px dotted #000; }
+  .tm .slist .t { margin-bottom: 2px; }
+  .tm .srow { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0; min-height: 0; }
+  .tm .srow + .srow { border-top: 1px dotted #000; }
   .tm .ico { width: 26px; height: 26px; border-radius: 8px; flex: none; display: flex; align-items: center; justify-content: center; border: 1px solid #000; }
   .tm .ico svg { width: 15px; height: 15px; fill: none; stroke: #000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .tm .ico--on { background: #000; }
   .tm .ico--on svg { stroke: #fff; }
-  .tm .item .tx { flex: 1; min-width: 0; }
-  .tm .item .tx b { display: block; font-size: 11px; font-weight: 600; line-height: 1.25; }
-  .tm .item .tx span { display: block; font-size: 9px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tm .srow .tx { flex: 1; min-width: 0; }
+  .tm .srow .tx b { display: block; font-size: 11px; font-weight: 600; line-height: 1.25; }
+  .tm .srow .tx span { display: block; font-size: 9px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   .tm .stack { display: grid; grid-template-rows: 1fr 1fr; gap: 8px; min-height: 0; }
   .tm .mini { padding: 8px 10px; }
@@ -170,41 +170,41 @@
     <div class="ring">
       <svg data-ring="dots" data-value="{{ level }}" viewBox="0 0 160 160"></svg>
       <div class="mid">
-        <div class="delta">{% if is_charging and added != '' %}+{{ added }} kWh{% elsif is_charging %}+{{ kw }} kW{% elsif is_driving %}{{ pwr }} kW{% endif %}</div>
+        <div class="delta"></div>
         <div class="num">{{ level }}<sup>%</sup></div>
         <div class="cap">{% if usable_battery_level %}{{ usable_battery_level }}% bruikbaar{% else %}lading{% endif %}</div>
       </div>
     </div>
-    <div class="legend">{% if is_charging %}Laadt met {{ kw }} kW{% elsif plugged_in == 'true' %}Stekker erin{% elsif plugged_in == 'false' %}Niet aangesloten{% endif %}</div>
+    <div class="legend">{% if is_charging and added != '' %}+{{ added }} kWh deze sessie{% elsif is_charging %}Stekker erin{% elsif plugged_in == 'true' %}Stekker erin{% elsif plugged_in == 'false' %}Niet aangesloten{% endif %}</div>
   </div>
 
   <div class="kpis">
     <div class="card kpi">
       <div class="t">Actieradius</div>
-      <div class="row"><span class="num">{{ range_km }}<small>km</small></span>{% if est_battery_range_km %}<span class="badge badge--soft">{{ est_battery_range_km | plus: 0 | round }} km geschat</span>{% endif %}</div>
+      <div class="krow"><span class="num">{{ range_km }}<small>km</small></span>{% if est_battery_range_km %}<span class="badge badge--soft">{{ est_battery_range_km | plus: 0 | round }} km geschat</span>{% endif %}</div>
       <div class="dots" data-on="{{ level }}"></div>
     </div>
 
     <div class="card kpi">
       {%- if is_charging and full_min > 0 %}
       <div class="t">Vol om</div>
-      <div class="row"><span class="num">{{ full_at }}</span><span class="badge badge--dark">nog {% if full_h > 0 %}{{ full_h }}u {% endif %}{{ full_m }}m</span></div>
+      <div class="krow"><span class="num">{{ full_at }}</span><span class="badge badge--dark">nog {% if full_h > 0 %}{{ full_h }}u {% endif %}{{ full_m }}m</span></div>
       <div class="dots" data-on="{{ level }}"></div>
       {%- elsif is_charging %}
       <div class="t">Laadt tot</div>
-      <div class="row"><span class="num">{{ limit }}<small>%</small></span><span class="badge badge--dark">nog {{ limit | minus: level }}%</span></div>
+      <div class="krow"><span class="num">{{ limit }}<small>%</small></span><span class="badge badge--dark">nog {{ limit | minus: level }}%</span></div>
       <div class="dots" data-on="{{ level }}"></div>
       {%- elsif is_driving %}
       <div class="t">Vermogen</div>
-      <div class="row"><span class="num">{{ pwr }}<small>kW</small></span><span class="badge badge--soft">{% if pwr < 0 %}regeneratief{% else %}verbruik{% endif %}</span></div>
+      <div class="krow"><span class="num">{{ pwr }}<small>kW</small></span><span class="badge badge--soft">{% if pwr < 0 %}regeneratief{% else %}verbruik{% endif %}</span></div>
       <div class="dots" data-on="{{ pwr | abs | times: 100 | divided_by: 150 }}"></div>
       {%- else %}
       {%- if since_label != '' %}
       <div class="t">{{ state_label }} sinds</div>
-      <div class="row"><span class="num">{{ since_label }}</span><span class="badge badge--soft">{{ since_dur }}</span></div>
+      <div class="krow"><span class="num">{{ since_label }}</span><span class="badge badge--soft">{{ since_dur }}</span></div>
       {%- else %}
       <div class="t">Bijgewerkt</div>
-      <div class="row"><span class="num">{{ fetched_at | default: '-' }}</span></div>
+      <div class="krow"><span class="num">{{ fetched_at | default: '-' }}</span></div>
       {%- endif %}
       <div class="dots" data-on="0"></div>
       {%- endif %}
@@ -212,7 +212,7 @@
 
     <div class="card kpi">
       <div class="t">Software</div>
-      <div class="row"><span class="num">{{ version | default: '-' | split: ' ' | first }}</span>{% if update_available == 'true' %}<span class="badge badge--dark">update klaar</span>{% endif %}</div>
+      <div class="krow"><span class="num">{{ version | default: '-' | split: ' ' | first }}</span>{% if update_available == 'true' %}<span class="badge badge--dark">update klaar</span>{% endif %}</div>
       <div class="dots" data-on="100"></div>
     </div>
   </div>
@@ -229,7 +229,7 @@
       </div>
       {%- else %}
       <div class="t">Snelheid</div>
-      <div class="st">{{ pwr }} kW</div>
+      <div class="st">Onderweg</div>
       <div class="ring">
         <svg data-ring="ticks" data-value="{{ g_frac | times: 100 }}" viewBox="0 0 160 160"></svg>
         <div class="mid"><div class="delta">km/u</div><div class="num">{{ speed_kmh }}</div></div>
@@ -238,26 +238,26 @@
     </div>
     {%- endif %}
 
-    <div class="card list">
+    <div class="card slist">
       <div class="t">Status</div>
       {%- if has_security %}
-      <div class="item"><span class="ico {% if locked == 'true' %}ico--on{% endif %}">{% if locked == 'false' %}{{ i_unlock }}{% else %}{{ i_lock }}{% endif %}</span>
+      <div class="srow"><span class="ico {% if locked == 'true' %}ico--on{% endif %}">{% if locked == 'false' %}{{ i_unlock }}{% else %}{{ i_lock }}{% endif %}</span>
         <div class="tx"><b>Vergrendeld</b><span>{% if doors_open == 'true' %}Deur open{% elsif trunk_open == 'true' %}Kofferbak open{% elsif frunk_open == 'true' %}Frunk open{% elsif windows_open == 'true' %}Raam open{% else %}Alle deuren en ramen dicht{% endif %}</span></div>
         <span class="badge {% if locked == 'false' %}badge--soft{% else %}badge--dark{% endif %}">{% if locked == 'false' %}Open{% else %}Op slot{% endif %}</span></div>
-      <div class="item"><span class="ico {% if sentry_mode == 'true' %}ico--on{% endif %}">{{ i_shield }}</span>
+      <div class="srow"><span class="ico {% if sentry_mode == 'true' %}ico--on{% endif %}">{{ i_shield }}</span>
         <div class="tx"><b>Sentry</b><span>{% if sentry_mode == 'true' %}Camera's kijken mee{% else %}Uitgeschakeld{% endif %}</span></div>
         <span class="badge {% if sentry_mode == 'true' %}badge--dark{% else %}badge--soft{% endif %}">{% if sentry_mode == 'true' %}Aan{% else %}Uit{% endif %}</span></div>
-      <div class="item"><span class="ico {% if is_climate_on == 'true' %}ico--on{% endif %}">{{ i_fan }}</span>
+      <div class="srow"><span class="ico {% if is_climate_on == 'true' %}ico--on{% endif %}">{{ i_fan }}</span>
         <div class="tx"><b>Klimaat</b><span>{% if is_preconditioning == 'true' %}Voorverwarmen{% elsif is_climate_on == 'true' %}Ingeschakeld{% else %}Uitgeschakeld{% endif %}</span></div>
         <span class="badge {% if is_climate_on == 'true' %}badge--dark{% else %}badge--soft{% endif %}">{% if is_climate_on == 'true' %}Aan{% else %}Uit{% endif %}</span></div>
       {%- else %}
-      <div class="item"><span class="ico {% if is_charging %}ico--on{% endif %}">{{ i_plug }}</span>
+      <div class="srow"><span class="ico {% if is_charging %}ico--on{% endif %}">{{ i_plug }}</span>
         <div class="tx"><b>Lader</b><span>{% if is_charging %}{{ kw }} kW{% if volts > 0 %} · {{ volts }} V{% endif %}{% else %}Niet aan het laden{% endif %}</span></div>
         <span class="badge {% if is_charging %}badge--dark{% else %}badge--soft{% endif %}">{% if is_charging %}Laadt{% else %}Uit{% endif %}</span></div>
-      <div class="item"><span class="ico {% if is_driving %}ico--on{% endif %}">{{ i_wheel }}</span>
+      <div class="srow"><span class="ico {% if is_driving %}ico--on{% endif %}">{{ i_wheel }}</span>
         <div class="tx"><b>Rijden</b><span>{% if is_driving %}{{ speed_kmh }} km/u · {{ pwr }} kW{% else %}Staat stil{% if place != '' %} bij {{ place }}{% endif %}{% endif %}</span></div>
         <span class="badge {% if is_driving %}badge--dark{% else %}badge--soft{% endif %}">{% if is_driving %}Rijdt{% else %}Stil{% endif %}</span></div>
-      <div class="item"><span class="ico {% if state == 'asleep' %}{% else %}ico--on{% endif %}">{{ i_chip }}</span>
+      <div class="srow"><span class="ico {% if state == 'asleep' %}{% else %}ico--on{% endif %}">{{ i_chip }}</span>
         <div class="tx"><b>Verbinding</b><span>{% if age_label != '' %}Data {{ age_label }}{% else %}TeslaMate{% endif %}</span></div>
         <span class="badge {% if state == 'asleep' or state == 'offline' %}badge--soft{% else %}badge--dark{% endif %}">{% if state == 'asleep' %}Slaapt{% elsif state == 'offline' %}Offline{% else %}Online{% endif %}</span></div>
       {%- endif %}
