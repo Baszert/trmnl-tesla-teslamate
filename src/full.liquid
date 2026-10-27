@@ -44,8 +44,8 @@
   .tm .gauge .ring svg { max-height: 128px; }
   .tm .gauge .ring .mid .num { font-size: 30px; }
 
-  .tm .list .t { margin-bottom: 4px; }
-  .tm .item { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+  .tm .list .t { margin-bottom: 2px; }
+  .tm .item { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0; min-height: 0; }
   .tm .item + .item { border-top: 1px dotted #000; }
   .tm .ico { width: 26px; height: 26px; border-radius: 8px; flex: none; display: flex; align-items: center; justify-content: center; border: 1px solid #000; }
   .tm .ico svg { width: 15px; height: 15px; fill: none; stroke: #000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
@@ -108,7 +108,16 @@
   {%- assign fetched_at = fetched | plus: tz | date: '%H:%M' -%}
 {%- endif -%}
 {%- assign since_label = '' -%}
-{%- if since and since != '' -%}{%- assign since_label = since | date: '%s' | plus: tz | date: '%H:%M' -%}{%- endif -%}
+{%- assign since_dur = '' -%}
+{%- if since and since != '' -%}
+  {%- assign since_s = since | date: '%s' | plus: 0 -%}
+  {%- assign since_label = since_s | plus: tz | date: '%H:%M' -%}
+  {%- assign dur_min = now | minus: since_s | divided_by: 60 -%}
+  {%- if dur_min < 60 -%}{%- capture since_dur %}{{ dur_min }} min{% endcapture -%}
+  {%- elsif dur_min < 1440 -%}{%- capture since_dur %}{{ dur_min | divided_by: 60 }}u {{ dur_min | modulo: 60 }}m{% endcapture -%}
+  {%- else -%}{%- assign dur_d = dur_min | divided_by: 1440 -%}{%- capture since_dur %}{{ dur_d }} {% if dur_d == 1 %}dag{% else %}dagen{% endif %}{% endcapture -%}
+  {%- endif -%}
+{%- endif -%}
 
 {%- assign added = '' -%}
 {%- if charge_energy_added -%}{%- assign added = charge_energy_added | plus: 0 | round: 1 | append: '' | replace: '.', ',' -%}{%- endif -%}
@@ -146,19 +155,18 @@
 
   <div class="card car">
     <div class="name">{{ display_name | default: 'Tesla' }}</div>
-    <div class="st">Model {{ model | default: '3' }}{% if trim_badging %} · {{ trim_badging }}{% endif %}</div>
+    <div class="st">Model {{ model | default: '3' }}</div>
     <div class="floor"></div>
     <img class="image image-dither" src="https://trmnl.achtnegen.nl/tesla/auto-blauw.png" alt="">
     <div class="state">
       <span class="badge badge--dark">{% if is_charging %}{{ i_bolt }}{% endif %}{{ state_label }}{% if place != '' %} · {{ place }}{% endif %}</span>
-      {%- if since_label != '' %}<span class="badge badge--line">sinds {{ since_label }}</span>
-      {%- elsif age_label != '' %}<span class="badge badge--line">{{ age_label }}</span>{% endif %}
+      {%- if age_label != '' %}<span class="badge badge--line">{{ age_label }}</span>{% endif %}
     </div>
   </div>
 
   <div class="card bat">
     <div class="t">Batterij</div>
-    <div class="st">{% if is_charging %}Laadt naar {{ limit }}%{% elsif is_driving %}Onderweg{% else %}Accu{% endif %}</div>
+    <div class="st">{% if is_charging %}Laadt naar {{ limit }}%{% elsif is_driving %}Onderweg{% else %}Lading{% endif %}</div>
     <div class="ring">
       <svg data-ring="dots" data-value="{{ level }}" viewBox="0 0 160 160"></svg>
       <div class="mid">
@@ -167,7 +175,7 @@
         <div class="cap">{% if usable_battery_level %}{{ usable_battery_level }}% bruikbaar{% else %}lading{% endif %}</div>
       </div>
     </div>
-    <div class="legend">{{ range_km }} km actieradius</div>
+    <div class="legend">{% if is_charging %}Laadt met {{ kw }} kW{% elsif plugged_in == 'true' %}Stekker erin{% elsif plugged_in == 'false' %}Niet aangesloten{% endif %}</div>
   </div>
 
   <div class="kpis">
@@ -191,8 +199,13 @@
       <div class="row"><span class="num">{{ pwr }}<small>kW</small></span><span class="badge badge--soft">{% if pwr < 0 %}regeneratief{% else %}verbruik{% endif %}</span></div>
       <div class="dots" data-on="{{ pwr | abs | times: 100 | divided_by: 150 }}"></div>
       {%- else %}
+      {%- if since_label != '' %}
+      <div class="t">{{ state_label }} sinds</div>
+      <div class="row"><span class="num">{{ since_label }}</span><span class="badge badge--soft">{{ since_dur }}</span></div>
+      {%- else %}
       <div class="t">Bijgewerkt</div>
-      <div class="row"><span class="num">{{ fetched_at | default: '-' }}</span>{% if age_label != '' %}<span class="badge badge--soft">{{ age_label }}</span>{% endif %}</div>
+      <div class="row"><span class="num">{{ fetched_at | default: '-' }}</span></div>
+      {%- endif %}
       <div class="dots" data-on="0"></div>
       {%- endif %}
     </div>
@@ -235,7 +248,7 @@
         <div class="tx"><b>Sentry</b><span>{% if sentry_mode == 'true' %}Camera's kijken mee{% else %}Uitgeschakeld{% endif %}</span></div>
         <span class="badge {% if sentry_mode == 'true' %}badge--dark{% else %}badge--soft{% endif %}">{% if sentry_mode == 'true' %}Aan{% else %}Uit{% endif %}</span></div>
       <div class="item"><span class="ico {% if is_climate_on == 'true' %}ico--on{% endif %}">{{ i_fan }}</span>
-        <div class="tx"><b>Klimaat</b><span>{% if is_preconditioning == 'true' %}Voorverwarmen{% else %}Binnen {{ t_in }}° · buiten {{ t_out }}°{% endif %}</span></div>
+        <div class="tx"><b>Klimaat</b><span>{% if is_preconditioning == 'true' %}Voorverwarmen{% elsif is_climate_on == 'true' %}Ingeschakeld{% else %}Uitgeschakeld{% endif %}</span></div>
         <span class="badge {% if is_climate_on == 'true' %}badge--dark{% else %}badge--soft{% endif %}">{% if is_climate_on == 'true' %}Aan{% else %}Uit{% endif %}</span></div>
       {%- else %}
       <div class="item"><span class="ico {% if is_charging %}ico--on{% endif %}">{{ i_plug }}</span>
@@ -288,7 +301,6 @@
           {%- endfor %}
         </g>
       </svg>
-      <div class="foot">{% if age_label != '' %}bijgewerkt {{ age_label }}{% endif %}</div>
     </div>
   </div>
 
